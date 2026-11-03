@@ -1,0 +1,279 @@
+
+:root {
+  --ink: #0c0a0d;
+  --paper: #f2ece1;
+
+  --pink: #ff4fa3;
+  --orange: #ff8a1f;
+  --teal: #1fd1c4;
+  --yellow: #ffd23f;
+  --violet: #a678ff;
+
+  --calm: "wdth" 150, "wght" 200;
+  --feral: "wdth" 50, "wght" 900;
+
+  --flat: polygon(
+    0% 0%, 10% 0%, 20% 0%, 30% 0%, 40% 0%, 50% 0%, 60% 0%, 70% 0%, 80% 0%, 90% 0%, 100% 0%,
+    100% 100%, 90% 100%, 80% 100%, 70% 100%, 60% 100%, 50% 100%, 40% 100%, 30% 100%, 20% 100%, 10% 100%, 0% 100%);
+  --jag: polygon(
+    0% 0%, 10% 25%, 20% 0%, 30% 25%, 40% 0%, 50% 25%, 60% 0%, 70% 25%, 80% 0%, 90% 25%, 100% 0%,
+    100% 100%, 90% 75%, 80% 100%, 70% 75%, 60% 100%, 50% 75%, 40% 100%, 30% 75%, 20% 100%, 10% 75%, 0% 100%);
+
+  /* The cut paper edge: a zigzag along the bottom of every strip. */
+  --zig: polygon(
+    0 0, 100% 0, 100% calc(100% - 14px),
+    95% 100%, 90% calc(100% - 14px), 85% 100%, 80% calc(100% - 14px),
+    75% 100%, 70% calc(100% - 14px), 65% 100%, 60% calc(100% - 14px),
+    55% 100%, 50% calc(100% - 14px), 45% 100%, 40% calc(100% - 14px),
+    35% 100%, 30% calc(100% - 14px), 25% 100%, 20% calc(100% - 14px),
+    15% 100%, 10% calc(100% - 14px), 5% 100%, 0 calc(100% - 14px));
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--ink);
+  color: var(--paper);
+  font-family: "Anybody", sans-serif;
+  font-weight: 300;
+  line-height: 1.5;
+}
+
+.poster {
+  max-width: 72rem;
+  margin: 0 auto;
+  padding: 2rem clamp(1rem, 5vw, 4rem) 4rem;
+}
+
+.tour-info {
+  margin: 1.25rem 0 0;
+  max-width: 36rem;
+  font-size: 1rem;
+  letter-spacing: 0.04em;
+  opacity: 0.8;
+}
+
+.tickets {
+  display: inline-block;
+  margin-top: 3rem;
+  padding: 0.75rem 1.5rem;
+  border: 2px solid var(--paper);
+  box-shadow: 6px 6px 0 var(--pink);
+  color: var(--paper);
+  font-size: 1.125rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-align: center;
+  text-decoration: none;
+}
+
+.tickets:hover,
+.tickets:focus-visible {
+  background: var(--paper);
+  color: var(--ink);
+}
+
+.artist {
+  margin: 0;
+  font-size: clamp(3rem, 18vw, 13rem);
+  font-variation-settings: var(--feral);
+  line-height: 0.9;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  text-shadow: 0.04em 0.04em 0 var(--pink);
+  transform: rotate(-2deg);
+  transform-origin: left bottom;
+  clip-path: var(--flat);
+  overflow-wrap: anywhere;
+}
+
+.tour-title {
+  display: inline-block;
+  margin: 1.5rem 0 0;
+  padding: 0.25rem 0.75rem;
+  background: var(--yellow);
+  color: var(--ink);
+  font-size: clamp(1.25rem, 4vw, 2.25rem);
+  font-variation-settings: "wdth" 80, "wght" 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  transform: rotate(1.5deg);
+}
+
+.city {
+  font-size: clamp(1.75rem, 6vw, 4.5rem);
+  font-variation-settings: var(--calm);
+  line-height: 1.05;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 0 0.15em;
+  clip-path: var(--flat);
+  transform-origin: left bottom;
+}
+
+
+.date,
+.city {
+  display: inline-grid;
+  justify-self: start;
+}
+
+.date > span,
+.city > span {
+  grid-area: 1 / 1;
+}
+
+.es {
+  visibility: hidden;
+}
+
+
+.tour-list {
+  margin-top: 3rem;
+  border-top: 2px solid var(--paper);
+}
+
+.stop {
+  position: relative;
+  margin-bottom: 0.5rem;
+  padding: 2rem 1.25rem calc(14px + 2rem);
+  background: var(--flag, var(--pink));
+  color: var(--ink);
+  clip-path: var(--zig);
+}
+
+.stop:nth-child(5n + 1) { --flag: var(--pink); }
+.stop:nth-child(5n + 2) { --flag: var(--orange); }
+.stop:nth-child(5n + 3) { --flag: var(--teal); }
+.stop:nth-child(5n + 4) { --flag: var(--yellow); }
+.stop:nth-child(5n + 5) { --flag: var(--violet); }
+
+.stop::before,
+.stop::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 12px;
+  background: radial-gradient(circle at 50% 50%, var(--ink) 0 4px, transparent 4.5px) 0 0 / 22px 12px repeat-x;
+  pointer-events: none;
+}
+
+.stop::before { top: 0.6rem; }
+.stop::after { bottom: calc(14px + 0.6rem); }
+
+.stop summary {
+  display: grid;
+  grid-template-columns: 10rem 1fr;
+  align-items: baseline;
+  gap: 0.5rem 1.5rem;
+  cursor: pointer;
+  list-style: none;
+}
+
+.stop summary::-webkit-details-marker {
+  display: none;
+}
+
+.date {
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+}
+
+.venue {
+  margin: 0.75rem 0 0 11.5rem;
+  font-size: 1.125rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+}
+
+
+.artist,
+.city {
+  transition:
+    font-variation-settings 1.4s ease-out,
+    clip-path 1.4s ease-out,
+    transform 1.4s ease-out,
+    background-color 1.4s ease-out,
+    color 1.4s ease-out;
+}
+
+.stop summary:hover .city,
+.stop summary:focus-visible .city {
+  font-variation-settings: var(--feral);
+  clip-path: var(--jag);
+  transform: skewX(-10deg);
+  background: var(--ink);
+  color: var(--flag);
+  transition: none;
+}
+
+.artist:hover {
+  clip-path: var(--jag);
+  transform: rotate(-2deg) skewX(-10deg);
+  transition: none;
+}
+
+
+
+.stop[open] .en {
+  visibility: hidden;
+}
+
+.stop[open] .es {
+  visibility: visible;
+}
+
+.stop[open] .city {
+  animation: settle 1.4s ease-out;
+}
+
+@keyframes settle {
+  from {
+    font-variation-settings: var(--feral);
+    clip-path: var(--jag);
+    transform: skewX(-10deg);
+  }
+}
+
+
+
+
+@media (max-width: 36rem) {
+  .stop summary {
+    grid-template-columns: 1fr;
+    gap: 0.25rem;
+  }
+
+  .venue {
+    margin-left: 0;
+  }
+}
+
+
+.date {
+  animation: beat 1s ease-in-out infinite;
+  animation-delay: calc(var(--row, 0) * 0.5s);
+}
+
+@keyframes beat {
+  50% { opacity: 0.5; }
+}
+
+.stop:nth-child(2) { --row: 1; }
+.stop:nth-child(3) { --row: 2; }
+.stop:nth-child(4) { --row: 3; }
+.stop:nth-child(5) { --row: 4; }
+.stop:nth-child(6) { --row: 5; }
+
+
+
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition-duration: 0.01s !important;
+    animation: none !important;
+  }
+}
