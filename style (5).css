@@ -1,0 +1,352 @@
+/* YOUR POSTER'S RULES · this file only changes index.html. */
+
+
+/* ============================================================
+   SETUP · colors, fonts, and the cut paper edge
+   Black background like a photocopied flyer. Five bright
+   papel picado colors. One off-white for text on black.
+   Two fonts: a gothic blackletter for names (--gothic) and a
+   worn typewriter for facts (--typewriter).
+   ============================================================ */
+
+:root {
+  --ink: #0c0a0d;
+  --paper: #f2ece1;
+
+  --pink: #ff4fa3;
+  --orange: #ff8a1f;
+  --teal: #1fd1c4;
+  --yellow: #ffd23f;
+  --violet: #a678ff;
+
+  --gothic: "Pirata One", "UnifrakturCook", serif;
+  --typewriter: "Special Elite", "Courier New", monospace;
+
+  /* Used only for the artist name tear on hover. Both shapes have
+     22 points so the browser can animate from flat to jagged. */
+  --flat: polygon(
+    0% 0%, 10% 0%, 20% 0%, 30% 0%, 40% 0%, 50% 0%, 60% 0%, 70% 0%, 80% 0%, 90% 0%, 100% 0%,
+    100% 100%, 90% 100%, 80% 100%, 70% 100%, 60% 100%, 50% 100%, 40% 100%, 30% 100%, 20% 100%, 10% 100%, 0% 100%);
+  --jag: polygon(
+    0% 0%, 10% 25%, 20% 0%, 30% 25%, 40% 0%, 50% 25%, 60% 0%, 70% 25%, 80% 0%, 90% 25%, 100% 0%,
+    100% 100%, 90% 75%, 80% 100%, 70% 75%, 60% 100%, 50% 75%, 40% 100%, 30% 75%, 20% 100%, 10% 75%, 0% 100%);
+
+  /* The cut paper edge: a zigzag along the bottom of every strip. */
+  --zig: polygon(
+    0 0, 100% 0, 100% calc(100% - 14px),
+    95% 100%, 90% calc(100% - 14px), 85% 100%, 80% calc(100% - 14px),
+    75% 100%, 70% calc(100% - 14px), 65% 100%, 60% calc(100% - 14px),
+    55% 100%, 50% calc(100% - 14px), 45% 100%, 40% calc(100% - 14px),
+    35% 100%, 30% calc(100% - 14px), 25% 100%, 20% calc(100% - 14px),
+    15% 100%, 10% calc(100% - 14px), 5% 100%, 0 calc(100% - 14px));
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--ink);
+  color: var(--paper);
+  font-family: var(--typewriter);
+  font-weight: 400;
+  font-synthesis: none;
+  line-height: 1.5;
+}
+
+.poster {
+  max-width: 72rem;
+  margin: 0 auto;
+  padding: 2rem clamp(1rem, 5vw, 4rem) 4rem;
+}
+
+.tour-info {
+  margin: 1.5rem 0 0;
+  max-width: 40rem;
+  font-size: 1.125rem;
+  letter-spacing: 0.02em;
+}
+
+.tour-info span {
+  display: block;
+}
+
+.tour-info .opener {
+  font-family: var(--gothic);
+  font-size: clamp(1.5rem, 5vw, 2.25rem);
+  line-height: 1.1;
+  letter-spacing: 0.02em;
+  overflow-wrap: anywhere;
+}
+
+.links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  margin-top: 3rem;
+}
+
+.tickets,
+.social {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  border: 2px solid var(--paper);
+  color: var(--paper);
+  font-size: 1.125rem;
+  letter-spacing: 0.06em;
+  text-align: center;
+  text-decoration: none;
+}
+
+.tickets { box-shadow: 6px 6px 0 var(--pink); }
+.social { box-shadow: 6px 6px 0 var(--teal); }
+
+.tickets:hover,
+.tickets:focus-visible,
+.social:hover,
+.social:focus-visible {
+  background: var(--paper);
+  color: var(--ink);
+}
+
+
+/* ============================================================
+   RULES · what holds still
+   ============================================================ */
+
+/* RULE 1: Names are gothic, facts are typewriter. The artist name,
+   the tour title, the opener, and every city use the gothic face.
+   Dates, venues, and small info use the typewriter face. The artist
+   name is always the loudest thing on the page: huge, tilted, with
+   a hard pink offset like a bad photocopy. The tour title is a
+   yellow sticker tilted the other way. Cities keep one size. */
+
+.artist {
+  margin: 0;
+  font-family: var(--gothic);
+  font-size: clamp(3.5rem, 20vw, 14rem);
+  font-weight: 400;
+  line-height: 0.9;
+  letter-spacing: 0.01em;
+  text-shadow: 0.04em 0.04em 0 var(--pink);
+  transform: rotate(-2deg);
+  transform-origin: left bottom;
+  clip-path: var(--flat);
+  overflow-wrap: anywhere;
+}
+
+.tour-title {
+  display: inline-block;
+  margin: 1.5rem 0 0;
+  padding: 0.25rem 0.9rem;
+  background: var(--yellow);
+  color: var(--ink);
+  font-family: var(--gothic);
+  font-size: clamp(1.5rem, 5vw, 2.75rem);
+  line-height: 1.2;
+  letter-spacing: 0.03em;
+  transform: rotate(1.5deg);
+}
+
+.city {
+  font-family: var(--gothic);
+  font-size: clamp(2rem, 7vw, 5rem);
+  line-height: 1.1;
+  letter-spacing: 0.02em;
+}
+
+
+/* RULE 2: Every date and city exists in English and in Spanish,
+   and both versions share one box. The box is always as wide as
+   the longer version, so a row never changes size when the
+   language changes. English shows by default. */
+
+.date,
+.city {
+  display: inline-grid;
+  justify-self: start;
+}
+
+.date > span,
+.city > span {
+  grid-area: 1 / 1;
+}
+
+.es {
+  visibility: hidden;
+}
+
+
+/* RULE 3: Every stop is a strip of cut paper, like papel picado,
+   hanging from one string. Each strip has the same zigzag cut edge,
+   the same rows of punched holes along the top and bottom, and black
+   ink text. Strip colors repeat in a fixed order: pink, orange, teal,
+   yellow, violet. A seventh stop would be pink again. */
+
+.tour-list {
+  margin-top: 3rem;
+  border-top: 2px solid var(--paper);
+}
+
+.stop {
+  position: relative;
+  margin-bottom: 0.5rem;
+  padding: 2rem 1.25rem calc(14px + 2rem);
+  background: var(--flag, var(--pink));
+  color: var(--ink);
+  clip-path: var(--zig);
+}
+
+.stop:nth-child(5n + 1) { --flag: var(--pink); }
+.stop:nth-child(5n + 2) { --flag: var(--orange); }
+.stop:nth-child(5n + 3) { --flag: var(--teal); }
+.stop:nth-child(5n + 4) { --flag: var(--yellow); }
+.stop:nth-child(5n + 5) { --flag: var(--violet); }
+
+/* The punched holes: small dark circles in a row, top and bottom. */
+.stop::before,
+.stop::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 12px;
+  background: radial-gradient(circle at 50% 50%, var(--ink) 0 4px, transparent 4.5px) 0 0 / 22px 12px repeat-x;
+  pointer-events: none;
+}
+
+.stop::before { top: 0.6rem; }
+.stop::after { bottom: calc(14px + 0.6rem); }
+
+.stop summary {
+  position: relative;
+  display: grid;
+  grid-template-columns: 10rem 1fr;
+  align-items: baseline;
+  gap: 0.5rem 1.5rem;
+  padding-right: 2.5rem;
+  cursor: pointer;
+  list-style: none;
+}
+
+.stop summary::-webkit-details-marker {
+  display: none;
+}
+
+/* A plus sign on every stop, so it is clear that it opens. */
+.stop summary::after {
+  content: "+";
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-family: var(--typewriter);
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.stop[open] summary::after {
+  content: "\00d7";
+}
+
+.stop summary:focus-visible {
+  outline: 3px solid var(--ink);
+  outline-offset: 6px;
+}
+
+.date {
+  font-size: 1.125rem;
+  letter-spacing: 0.06em;
+}
+
+.venue {
+  margin: 0.75rem 0 0 11.5rem;
+  font-size: 1.25rem;
+  letter-spacing: 0.04em;
+}
+
+
+/* ============================================================
+   STATES · what changes when someone acts
+   ============================================================ */
+
+/* FORMULA 1: When the user clicks or taps a stop, then its date and city
+   switch from English to Spanish and the venue drops down, because the
+   band lives in two languages and the viewer decides which one they see.
+   Nothing else moves. Clicking again goes back to English. */
+
+.stop[open] .en {
+  visibility: hidden;
+}
+
+.stop[open] .es {
+  visibility: visible;
+}
+
+
+/* FORMULA 2: When the user makes the window narrow, then each date stacks
+   above its city and the venue lines up with the left edge, because the
+   long names (Ciudad del Lago Salado) need the whole width to stay readable. */
+
+@media (max-width: 36rem) {
+  .stop summary {
+    grid-template-columns: 1fr;
+    gap: 0.25rem;
+  }
+
+  .venue {
+    margin-left: 0;
+  }
+}
+
+
+/* FORMULA 3: When the user hovers over the artist name, then its edges tear
+   into a jagged shape and it tips further, because the band's sound tears
+   from haunting to feral. It recovers slowly. To remove this, delete this
+   whole formula. */
+
+.artist {
+  transition:
+    clip-path 1.4s ease-out,
+    transform 1.4s ease-out;
+}
+
+.artist:hover {
+  clip-path: var(--jag);
+  transform: rotate(-2deg) skewX(-10deg);
+  transition: none;
+}
+
+
+/* BONUS (animate): When the page is open, then each date dims and returns
+   on a steady one-second beat, with each row half a second behind the row
+   above it, because the music is danceable and the beat should travel down
+   the page. The dim only goes to half, so dates stay readable.
+   When you add a stop, add one more :nth-child line below. */
+
+.date {
+  animation: beat 1s ease-in-out infinite;
+  animation-delay: calc(var(--row, 0) * 0.5s);
+}
+
+@keyframes beat {
+  50% { opacity: 0.5; }
+}
+
+.stop:nth-child(2) { --row: 1; }
+.stop:nth-child(3) { --row: 2; }
+.stop:nth-child(4) { --row: 3; }
+.stop:nth-child(5) { --row: 4; }
+.stop:nth-child(6) { --row: 5; }
+
+
+/* ============================================================
+   SAFETY NET · leave it last.
+   For people who set their computer to "Reduce motion":
+   every change still happens, just instantly.
+   ============================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition-duration: 0.01s !important;
+    animation: none !important;
+  }
+}
